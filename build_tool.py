@@ -4,7 +4,7 @@ import time
 import subprocess
 
 combos = []
-default_version = "None"
+release_version = "None"
 is_clean = True
 is_ota = True
 thread_count = 24
@@ -49,9 +49,9 @@ def init_config():
                     combo = line.replace(add_lunch_combo, "").strip()
                     combos.append(combo)
                     if combo.endswith("user"):
-                        global default_version
+                        global release_version
                         global device_platform
-                        default_version = combo
+                        release_version = combo
                         device_platform = dir
     git_branches = os.popen("git branch")
     for branch in git_branches.readlines():
@@ -59,33 +59,35 @@ def init_config():
             global git_branch
             global release_dir
             git_branch = branch.replace("*", "").strip()
-            release_dir = "release_" + git_branch
+            build_type = (release_version.split())[-1]
+            release_dir = "release_" + build_type + "_" + git_branch.upper()
     git_branches.close()
     print(coloring(LIGHT_GREEN,
-                   "%s\n默认配置为：\n\n编译平台：%s\n编译版本：%s\n执行Clean：%r\n编译OTA包：%r\n编译线程数：%d\n是否保存日志副本：%r\n日志副本文件名：%s\n释放版本文件夹：%s\n%s" % (
-                       "=" * 50, device_platform, default_version, is_clean, is_ota, thread_count, is_save_log,
+                   "%s\n默认配置为：\n\n编译平台：%s\n编译版本：%s\n编译分支：%s\n执行Clean：%r\n编译OTA包：%r\n编译线程数：%d\n是否保存日志副本：%r\n日志副本文件名：%s\n释放版本文件夹：%s\n%s" % (
+                       "=" * 50, device_platform, release_version, git_branch, is_clean, is_ota, thread_count,
+                       is_save_log,
                        log_file_name, release_dir, "=" * 50)))
 
 
 def custom_config():
     print(coloring(YELLOW, "\n\n请输入编译版本序号[1 - %d]" % len(combos)) + coloring(LIGHT_BLUE,
-                                                                             "（其他输入将默认为%s）：" % default_version))
+                                                                             "（其他输入将默认为%s）：" % release_version))
     i = 0
     while i < len(combos):
         print("%d . %s" % (i + 1, combos[i]))
         i += 1
     version_input_str = input("序号：").strip()
-    global default_version
+    global release_version
     try:
         if 0 < int(version_input_str) <= len(combos):
-            default_version = combos[int(version_input_str) - 1]
+            release_version = combos[int(version_input_str) - 1]
     except ValueError:
         print(coloring(RED, "格式错误，保持默认"))
     for platform in device_platform_list:
-        if platform in default_version:
+        if platform in release_version:
             global device_platform
             device_platform = platform
-    print(coloring(LIGHT_GREEN, "现编译版本为：%s\n%s" % (default_version, "-" * 50)))
+    print(coloring(LIGHT_GREEN, "现编译版本为：%s\n%s" % (release_version, "-" * 50)))
 
     global is_clean
     is_clean_input_str = input(
@@ -130,7 +132,7 @@ def custom_config():
 
     confirm = input(coloring(LIGHT_GREEN, "\n\n%s\n默认配置为：\n\n编译平台：%s\n编译版本：%s\n执行Clean：%r\n编译OTA包：%r\n编译线程数：%d\n"
                                           "是否保存日志副本：%r\n日志副本文件名：%s\n%s\n（确认配置请回车，其他输入则重新配置）" % (
-                                 "=" * 50, device_platform, default_version, is_clean, is_ota, thread_count,
+                                 "=" * 50, device_platform, release_version, is_clean, is_ota, thread_count,
                                  is_save_log,
                                  log_file_name,
                                  "=" * 50)))
@@ -141,9 +143,9 @@ def custom_config():
 def exec_order():
     if is_clean:
         add_command("rm -rf ./out", is_check_error=False)
-        add_command("rm -rf ./Build-*", is_check_error=False)
+        add_command("rm -rf ./Build-*.log", is_check_error=False)
     add_command("source build/envsetup.sh")
-    add_command("lunch " + default_version)
+    add_command("lunch " + release_version)
     if is_save_log:
         add_command("make -j%d 2>&1 | tee %s" % (thread_count, log_file_name))
     else:
