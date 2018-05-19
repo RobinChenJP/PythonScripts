@@ -59,17 +59,19 @@ def init_config():
             global git_branch
             global release_dir
             git_branch = branch.replace("*", "").strip()
-            build_type = (release_version.split('-_'))[-1]
-            release_dir = "release_" + build_type + "_" + git_branch.upper()
+            build_type = (release_version.split('-'))[-1]
+            release_dir = ("release_" + build_type + "_" + git_branch).upper()
     git_branches.close()
     print(coloring(LIGHT_GREEN,
-                   "%s\n默认配置为：\n\n编译平台：%s\n编译版本：%s\n编译分支：%s\n执行Clean：%r\n编译OTA包：%r\n编译线程数：%d\n是否保存日志副本：%r\n日志副本文件名：%s\n释放版本文件夹：%s\n%s" % (
+                   "%s\n默认配置为：\n\n编译平台：%s\n编译版本：%s\n编译分支：%s\n执行Clean：%r\n编译OTA包：%r"
+                   "\n编译线程数：%d\n是否保存日志副本：%r\n日志副本文件名：%s\n释放版本文件夹：%s\n%s" % (
                        "=" * 50, device_platform, release_version, git_branch, is_clean, is_ota, thread_count,
                        is_save_log,
                        log_file_name, release_dir, "=" * 50)))
 
 
 def custom_config():
+    global release_version
     print(coloring(YELLOW, "\n\n请输入编译版本序号[1 - %d]" % len(combos)) + coloring(LIGHT_BLUE,
                                                                              "（其他输入将默认为%s）：" % release_version))
     i = 0
@@ -77,7 +79,6 @@ def custom_config():
         print("%d . %s" % (i + 1, combos[i]))
         i += 1
     version_input_str = input("序号：").strip()
-    global release_version
     try:
         if 0 < int(version_input_str) <= len(combos):
             release_version = combos[int(version_input_str) - 1]
