@@ -143,7 +143,9 @@ def custom_config():
 def exec_order():
     if is_clean:
         add_command("rm -rf ./out", is_check_error=False)
-        add_command("rm -rf ./Build-*.log", is_check_error=False)
+        add_command("rm -f ./Build-*.log", is_check_error=False)
+        add_command("rm -rf ./release_*_*", is_check_error=False)
+
     add_command("source build/envsetup.sh")
     add_command("lunch " + release_version)
     if is_save_log:
