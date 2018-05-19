@@ -59,7 +59,7 @@ def init_config():
             global git_branch
             global release_dir
             git_branch = branch.replace("*", "").strip()
-            build_type = (release_version.split())[-1]
+            build_type = (release_version.split('-_'))[-1]
             release_dir = "release_" + build_type + "_" + git_branch.upper()
     git_branches.close()
     print(coloring(LIGHT_GREEN,
