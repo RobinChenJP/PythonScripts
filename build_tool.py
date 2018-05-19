@@ -92,19 +92,21 @@ def custom_config():
 
     global is_clean
     is_clean_input_str = input(
-        coloring(YELLOW, "\n\n请输入Y或N选择是否执行Clean") + coloring(LIGHT_BLUE, "（其他输入则为则为默认%r）：" % is_clean)).strip()
-    if is_clean_input_str.upper() == "Y":
+        coloring(YELLOW, "\n\n请输入Y或T、N或F选择是否执行Clean") + coloring(LIGHT_BLUE, "（其他输入则为则为默认%r）：" % is_clean)).strip()
+    choose = is_clean_input_str.upper()
+    if choose == "Y" or choose == "T":
         is_clean = True
-    elif is_clean_input_str.upper() == "N":
+    elif choose == "N" or choose == "F":
         is_clean = False
-    print(coloring(LIGHT_GREEN, "现执行Clean：：%r\n%s" % (is_clean, "-" * 50)))
+    print(coloring(LIGHT_GREEN, "现执行Clean：%r\n%s" % (is_clean, "-" * 50)))
 
     global is_ota
     is_ota_input_str = input(
-        coloring(YELLOW, "\n\n请输入Y或N选择是否编译OTA包") + coloring(LIGHT_BLUE, "（其他输入则为则为默认%r）：" % is_ota)).strip()
-    if is_ota_input_str.upper() == "Y":
+        coloring(YELLOW, "\n\n请输入Y或T、N或F选择是否编译OTA包") + coloring(LIGHT_BLUE, "（其他输入则为则为默认%r）：" % is_ota)).strip()
+    choose = is_ota_input_str.upper()
+    if choose == "Y" or choose == "T":
         is_ota = True
-    elif is_ota_input_str.upper() == "N":
+    elif choose == "N" or choose == "F":
         is_ota = False
     print(coloring(LIGHT_GREEN, "现是否编译OTA包：%r\n%s" % (is_ota, "-" * 50)))
 
@@ -119,11 +121,12 @@ def custom_config():
     print(coloring(LIGHT_GREEN, "编译线程数：%d\n%s" % (thread_count, "-" * 50)))
 
     global is_save_log
-    is_save_log_input_str = input(coloring(YELLOW, "\n\n请输入Y或N选择是否保存日志副本") + coloring(LIGHT_BLUE,
-                                                                                      "（不输入则为默认%r，其他输入将会作为日志文件名且保存日志副本）：" % is_save_log)).strip()
-    if is_save_log_input_str.upper() == "Y":
+    is_save_log_input_str = input(coloring(YELLOW, "\n\n请输入Y或T、N或F选择是否保存日志副本") + coloring(LIGHT_BLUE,
+                                                                                      "（不输入则为默认%r，其他输入将会作为日志文件名且开启保存编译日志副本）：" % is_save_log)).strip()
+    choose = is_save_log_input_str.upper()
+    if choose == "Y" or choose == "T":
         is_save_log = True
-    elif is_save_log_input_str.upper() == "N":
+    elif choose == "N" or choose == "F":
         is_save_log = False
     elif len(is_save_log_input_str) > 0:
         is_save_log = True
