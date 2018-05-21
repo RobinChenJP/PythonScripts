@@ -60,7 +60,8 @@ def init_config():
             global release_dir
             git_branch = branch.replace("*", "").strip()
             build_type = (release_version.split('-'))[-1]
-            release_dir = ("release_" + build_type + "_" + git_branch).upper()
+            release_dir = ("release_%s_%s_%s"
+                           % (build_type, git_branch, time.strftime("%Y%m%d", time.localtime()))).upper()
     git_branches.close()
     print(coloring(LIGHT_GREEN,
                    "%s\n默认配置为：\n\n编译平台：%s\n编译版本：%s\n编译分支：%s\n执行Clean：%r\n编译OTA包：%r"
@@ -92,7 +93,7 @@ def custom_config():
 
     global is_clean
     is_clean_input_str = input(
-        coloring(YELLOW, "\n\n请输入Y或T、N或F选择是否执行Clean") + coloring(LIGHT_BLUE, "（其他输入则为则为默认%r）：" % is_clean)).strip()
+        coloring(YELLOW, "\n\n请输入Y或T（为是）、N或F（为否）选择是否执行Clean") + coloring(LIGHT_BLUE, "（其他输入则为则为默认%r）：" % is_clean)).strip()
     choose = is_clean_input_str.upper()
     if choose == "Y" or choose == "T":
         is_clean = True
@@ -102,7 +103,7 @@ def custom_config():
 
     global is_ota
     is_ota_input_str = input(
-        coloring(YELLOW, "\n\n请输入Y或T、N或F选择是否编译OTA包") + coloring(LIGHT_BLUE, "（其他输入则为则为默认%r）：" % is_ota)).strip()
+        coloring(YELLOW, "\n\n请输入Y或T（为是）、N或F（为否）选择是否编译OTA包") + coloring(LIGHT_BLUE, "（其他输入则为则为默认%r）：" % is_ota)).strip()
     choose = is_ota_input_str.upper()
     if choose == "Y" or choose == "T":
         is_ota = True
@@ -121,8 +122,8 @@ def custom_config():
     print(coloring(LIGHT_GREEN, "编译线程数：%d\n%s" % (thread_count, "-" * 50)))
 
     global is_save_log
-    is_save_log_input_str = input(coloring(YELLOW, "\n\n请输入Y或T、N或F选择是否保存日志副本") + coloring(LIGHT_BLUE,
-                                                                                      "（不输入则为默认%r，其他输入将会作为日志文件名且开启保存编译日志副本）：" % is_save_log)).strip()
+    is_save_log_input_str = input(coloring(YELLOW, "\n\n请输入Y或T（为是）、N或F（为否）选择是否保存日志副本") + coloring(LIGHT_BLUE,
+                                                                                          "（不输入则为默认%r，其他输入将会作为日志文件名且开启保存编译日志副本）：" % is_save_log)).strip()
     choose = is_save_log_input_str.upper()
     if choose == "Y" or choose == "T":
         is_save_log = True
