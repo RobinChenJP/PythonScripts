@@ -2,7 +2,12 @@
 import os
 import time
 import subprocess
-
+'''
+ * @author : RobinChen
+ * @date : 2018/5/11  10:28
+ * describe : Fise MZXXXX平台的编译脚本
+ *
+'''
 combos = []
 release_version = "None"
 is_clean = True
