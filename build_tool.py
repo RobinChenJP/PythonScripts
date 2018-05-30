@@ -88,6 +88,9 @@ def custom_config():
     try:
         if 0 < int(version_input_str) <= len(combos):
             release_version = combos[int(version_input_str) - 1]
+            build_type = (release_version.split('-'))[-1]
+            release_dir = ("release_%s_%s_%s"
+                           % (build_type, git_branch, time.strftime("%Y%m%d", time.localtime()))).upper()
     except ValueError:
         print(coloring(RED, "格式错误，保持默认"))
     for platform in device_platform_list:
@@ -154,7 +157,7 @@ def exec_order():
     if is_clean:
         add_command("rm -rf ./out", is_check_error=False)
         add_command("rm -f ./Build-*.log", is_check_error=False)
-        add_command("rm -rf ./release_*_*", is_check_error=False)
+        add_command("rm -rf ./RELEASE_*_*", is_check_error=False)
 
     add_command("source build/envsetup.sh")
     add_command("lunch " + release_version)
