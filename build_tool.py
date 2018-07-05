@@ -2,6 +2,7 @@
 import os
 import time
 import subprocess
+
 '''
  * @author : RobinChen
  * @date : 2018/5/11  10:28
@@ -102,7 +103,8 @@ def custom_config():
 
     global is_clean
     is_clean_input_str = input(
-        coloring(YELLOW, "\n\n请输入Y或T（为是）、N或F（为否）选择是否执行Clean") + coloring(LIGHT_BLUE, "（其他输入则为则为默认%r）：" % is_clean)).strip()
+        coloring(YELLOW, "\n\n请输入Y或T（为是）、N或F（为否）选择是否执行Clean") + coloring(LIGHT_BLUE,
+                                                                         "（其他输入则为则为默认%r）：" % is_clean)).strip()
     choose = is_clean_input_str.upper()
     if choose == "Y" or choose == "T":
         is_clean = True
@@ -132,7 +134,7 @@ def custom_config():
 
     global is_save_log
     is_save_log_input_str = input(coloring(YELLOW, "\n\n请输入Y或T（为是）、N或F（为否）选择是否保存日志副本") + coloring(LIGHT_BLUE,
-                                                                                          "（不输入则为默认%r，其他输入将会作为日志文件名且开启保存编译日志副本）：" % is_save_log)).strip()
+                                                                                                  "（不输入则为默认%r，其他输入将会作为日志文件名且开启保存编译日志副本）：" % is_save_log)).strip()
     choose = is_save_log_input_str.upper()
     if choose == "Y" or choose == "T":
         is_save_log = True
@@ -145,11 +147,11 @@ def custom_config():
     print(coloring(LIGHT_GREEN, "现是否保存日志副本：%r\n日志文件名为%s\n%s" % (is_save_log, log_file_name, "-" * 50)))
 
     confirm = input(coloring(LIGHT_GREEN,
-                   "\n\n%s\n当前配置为：\n\n编译平台：%s\n编译版本：%s\n编译分支：%s\n执行Clean：%r\n编译OTA包：%r"
-                   "\n编译线程数：%d\n是否保存日志副本：%r\n日志副本文件名：%s\n释放版本文件夹：%s\n%s\n（确认配置请回车，其他输入则重新配置）" % (
-                       "=" * 50, device_platform, release_version, git_branch, is_clean, is_ota, thread_count,
-                       is_save_log,
-                       log_file_name, release_dir, "=" * 50)))
+                             "\n\n%s\n当前配置为：\n\n编译平台：%s\n编译版本：%s\n编译分支：%s\n执行Clean：%r\n编译OTA包：%r"
+                             "\n编译线程数：%d\n是否保存日志副本：%r\n日志副本文件名：%s\n释放版本文件夹：%s\n%s\n（确认配置请回车，其他输入则重新配置）" % (
+                                 "=" * 50, device_platform, release_version, git_branch, is_clean, is_ota, thread_count,
+                                 is_save_log,
+                                 log_file_name, release_dir, "=" * 50)))
 
     if len(confirm) > 0:
         custom_config()
