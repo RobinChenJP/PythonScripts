@@ -1,0 +1,3 @@
+cd /d %~dp0
+echo 等待Python解释器初始化完成......
+python ChangeNetInfo.py

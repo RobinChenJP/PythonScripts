@@ -3,6 +3,7 @@ import urllib.request
 import threading
 import json
 import time
+import ChangeNetInfo
 
 
 def http_post():
@@ -34,6 +35,8 @@ def login_thread():
 
 
 if __name__ == "__main__":
+    print("正在准备切换网络......")
+    ChangeNetInfo.change_net_config("192.168.11.254","255.255.255.0","192.168.11.1")
     print("正在准备登录沸石网络......")
     thread = threading.Thread(target=login_thread)
     thread.start()
