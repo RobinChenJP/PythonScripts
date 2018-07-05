@@ -11,7 +11,7 @@ import subprocess
 combos = []
 release_version = "None"
 is_clean = True
-is_ota = True
+is_ota = False
 thread_count = 24
 is_save_log = True
 log_file_name = "Build-" + time.strftime("%Y%m%d", time.localtime()) + ".log"
@@ -89,6 +89,7 @@ def custom_config():
         if 0 < int(version_input_str) <= len(combos):
             release_version = combos[int(version_input_str) - 1]
             build_type = (release_version.split('-'))[-1]
+            global release_dir
             release_dir = ("release_%s_%s_%s"
                            % (build_type, git_branch, time.strftime("%Y%m%d", time.localtime()))).upper()
     except ValueError:
@@ -143,12 +144,13 @@ def custom_config():
         log_file_name = is_save_log_input_str
     print(coloring(LIGHT_GREEN, "现是否保存日志副本：%r\n日志文件名为%s\n%s" % (is_save_log, log_file_name, "-" * 50)))
 
-    confirm = input(coloring(LIGHT_GREEN, "\n\n%s\n默认配置为：\n\n编译平台：%s\n编译版本：%s\n执行Clean：%r\n编译OTA包：%r\n编译线程数：%d\n"
-                                          "是否保存日志副本：%r\n日志副本文件名：%s\n%s\n（确认配置请回车，其他输入则重新配置）" % (
-                                 "=" * 50, device_platform, release_version, is_clean, is_ota, thread_count,
-                                 is_save_log,
-                                 log_file_name,
-                                 "=" * 50)))
+    confirm = input(coloring(LIGHT_GREEN,
+                   "\n\n%s\n当前配置为：\n\n编译平台：%s\n编译版本：%s\n编译分支：%s\n执行Clean：%r\n编译OTA包：%r"
+                   "\n编译线程数：%d\n是否保存日志副本：%r\n日志副本文件名：%s\n释放版本文件夹：%s\n%s\n（确认配置请回车，其他输入则重新配置）" % (
+                       "=" * 50, device_platform, release_version, git_branch, is_clean, is_ota, thread_count,
+                       is_save_log,
+                       log_file_name, release_dir, "=" * 50)))
+
     if len(confirm) > 0:
         custom_config()
 
@@ -221,4 +223,4 @@ if __name__ == "__main__":
             custom_config()
         exec_order()
     except KeyboardInterrupt:
-        print(coloring(RED, "退出脚本！"))
+        print(coloring(RED, "\n退出脚本！"))

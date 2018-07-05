@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import wmi
+import time
 def change_net_config(ip,mask,gateway):
     wmiService = wmi.WMI()
     colNicConfigs = wmiService.Win32_NetworkAdapterConfiguration(IPEnabled = True)
@@ -55,6 +56,7 @@ def change_net_config(ip,mask,gateway):
         print('掩码: ', ':'.join(objNicConfig.IPSubnet))
         print('网关: ', ':'.join(objNicConfig.DefaultIPGateway[0]))
     print('修改IP结束')
+    time.sleep(1)
 if __name__ == "__main__":
     print("正在准备切换IP：192.168.1.138")
     IPAddresses = '192.168.1.138'
