@@ -58,7 +58,7 @@ def change_net_config(ip, mask, gateway):
         print('掩码: %s' % (objNicConfig.IPSubnet[0]))
         print('网关: %s' % (objNicConfig.DefaultIPGateway[0]))
     print('修改IP结束')
-    time.sleep(1)
+    time.sleep(2)
 
 
 if __name__ == "__main__":

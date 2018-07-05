@@ -26,8 +26,15 @@ def http_post():
 
 
 def login_thread():
-    countdown = 5
-    result = json.loads(http_post())
+    countdown = 3
+    for x in range(countdown):
+        try:
+            result = json.loads(http_post())
+            break
+        except urllib.error.URLError:
+            print("连接错误，第%d次尝试重新连接" % (x + 1))
+            result['msg'] = "连接错误"
+            time.sleep(2)
     print("登录结果：", result['msg'])
     for x in range(countdown):
         print(countdown - x, "秒后自动关闭")
