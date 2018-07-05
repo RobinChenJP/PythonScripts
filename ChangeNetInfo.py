@@ -52,9 +52,9 @@ def change_net_config(ip,mask,gateway):
     else:
         print('')
         print('修改后的配置为：')
-        print('IP: ', ':'.join(objNicConfig.IPAddress))
-        print('掩码: ', ':'.join(objNicConfig.IPSubnet))
-        print('网关: ', ':'.join(objNicConfig.DefaultIPGateway[0]))
+        print('IP: %s' % (objNicConfig.IPAddress[0]))
+        print('掩码: %s' % (objNicConfig.IPSubnet[0]))
+        print('网关: %s' % (objNicConfig.DefaultIPGateway[0]))
     print('修改IP结束')
     time.sleep(1)
 if __name__ == "__main__":
